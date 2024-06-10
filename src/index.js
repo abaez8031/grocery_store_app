@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import configureStore from './store';
+import { addToCart } from './store/cart';
 
 const store = configureStore();
 
@@ -27,4 +28,5 @@ ReactDOM.render(
 
 if (process.env.NODE_ENV !== "production") {
   window.store = store;
+  window.addToCart = addToCart;
 }
