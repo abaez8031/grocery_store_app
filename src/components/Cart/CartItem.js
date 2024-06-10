@@ -2,11 +2,22 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart, removeFromCart, removeOneFromCart, updateItemCount } from '../../store/cart';
 
-// Handle putting an empty string in the number input
-
 function CartItem({ item }) {
   const [count, setCount] = useState(item.count);
   const dispatch = useDispatch();
+
+  const handleBlur = () => {
+    if (count === "" || isNaN(count) || count < 1) {
+      dispatch(removeFromCart(item.id))
+    } else {
+      dispatch(updateItemCount(item.id, count))
+    }
+  }
+
+  const handleInputChange = (e) => {
+    const value = e.target.value
+    setCount(value === "" ? "" : parseInt(value))
+  }
 
   useEffect(() => {
     setCount(item.count);
@@ -19,8 +30,8 @@ function CartItem({ item }) {
         <input
           type="number"
           value={count}
-          onBlur={() => {dispatch(updateItemCount(item.id, count))}}
-          onChange={(e) => {setCount(parseInt(e.target.value))}}
+          onBlur={handleBlur}
+          onChange={handleInputChange}
         />
         <button
           className="cart-item-button"
