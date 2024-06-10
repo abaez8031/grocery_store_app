@@ -1,5 +1,6 @@
 const ADD_TO_CART = "cart/ADD_TO_CART"
 const REMOVE_FROM_CART = "cart/REMOVE_FROM_CART"
+const REMOVE_ONE_FROM_CART = "cart/REMOVE_ONE_FROM_CART"
 
 export const addToCart = id => ({
   type: ADD_TO_CART,
@@ -11,6 +12,12 @@ export const removeFromCart = id => ({
   id
 })
 
+export const removeOneFromCart = id => ({
+  type: REMOVE_ONE_FROM_CART,
+  id
+})
+
+
 const cartReducer = (state= {}, action) => {
   const newState = {...state};
   switch(action.type) {
@@ -20,6 +27,10 @@ const cartReducer = (state= {}, action) => {
     case REMOVE_FROM_CART:
       delete newState[action.id]
       return newState
+    case REMOVE_ONE_FROM_CART:
+      newState[action.id] = {id: action.id, count: newState[action.id].count - 1}
+      if (newState[action.id].count <= 0) delete newState[action.id]
+      return newState;
     default:
       return state;
   }
