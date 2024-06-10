@@ -2,6 +2,7 @@ const ADD_TO_CART = "cart/ADD_TO_CART"
 const REMOVE_FROM_CART = "cart/REMOVE_FROM_CART"
 const REMOVE_ONE_FROM_CART = "cart/REMOVE_ONE_FROM_CART"
 const UPDATE_ITEM_COUNT = "cart/UPDATE_ITEM_COUNT"
+const EMPTY_CART = "cart/EMPTY_CART"
 
 
 export const addToCart = id => ({
@@ -17,6 +18,10 @@ export const removeFromCart = id => ({
 export const removeOneFromCart = id => ({
   type: REMOVE_ONE_FROM_CART,
   id
+})
+
+export const emptyCart = () => ({
+  type: EMPTY_CART
 })
 
 export const updateItemCount = (id, count) => ({
@@ -43,6 +48,8 @@ const cartReducer = (state= {}, action) => {
       newState[action.id] = {id: action.id, count: action.count}
       if (newState[action.id].count <= 0) delete newState[action.id]
       return newState
+    case EMPTY_CART:
+      return {};
     default:
       return state;
   }
