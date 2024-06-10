@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addToCart, removeFromCart, removeOneFromCart } from '../../store/cart';
+import { addToCart, removeFromCart, removeOneFromCart, updateItemCount } from '../../store/cart';
 
-// When the number in the input field next to a cart item is changed and clicked off of, it should update the count for that cart item in the Redux store state.
-
-// If clicking the minus button or changing the number in the input field ever updates to a count lower than 1, remove the cart item.
+// Handle putting an empty string in the number input
 
 function CartItem({ item }) {
   const [count, setCount] = useState(item.count);
@@ -21,6 +19,8 @@ function CartItem({ item }) {
         <input
           type="number"
           value={count}
+          onBlur={() => {dispatch(updateItemCount(item.id, count))}}
+          onChange={(e) => {setCount(parseInt(e.target.value))}}
         />
         <button
           className="cart-item-button"
